@@ -1,0 +1,59 @@
+@import "tailwindcss";
+@import "./styles/balsa-foundation.css";
+@import "./styles/balsa-theme.css";
+@import "./styles/balsa-shadcn-bridge.css";
+@import "./styles/my-design-system-palette.css";
+
+/*
+ * Epilogue, the font the my-design-system theme asks for (title, body and
+ * control stacks). The file comes from the Revoluce design system.
+ */
+@font-face {
+  font-family: "Epilogue";
+  src: url("/fonts/Epilogue-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+ * Revoluce service colours (Revoluce design system tokens luce, gas, fibra).
+ * Balsa's palette has no slot for them; use them only to mean their service.
+ */
+@theme {
+  --color-rv-luce: #fcecb8;
+  --color-rv-gas: #f9ca90;
+  --color-rv-fibra: #b5e5f9;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--balsa-font-body, "Epilogue"), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--balsa-font-title, "Epilogue"), system-ui, sans-serif;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-balsa-focus-ring);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
