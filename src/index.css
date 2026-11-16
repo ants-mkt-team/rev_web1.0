@@ -26,6 +26,22 @@
   --color-rv-fibra: #b5e5f9;
 }
 
+/*
+ * Two Balsa roles the generated palette leaves to Balsa's defaults, which
+ * fall short of WCAG 2.2 AA on this palette:
+ * - muted foreground (FAQ answers, field hints, placeholders): Balsa mixes 72%
+ *   violet into lilac (#7c69e6, 4.2:1 on white); 85% gives 5.2:1 on white and
+ *   4.7:1 on the field fill;
+ * - input border: Balsa's #a194f1 is 2.6:1 on white; #8a7bea is 3.4:1, above
+ *   the 3:1 non-text minimum.
+ * Kept here, not in the generated palette file, so a palette regeneration
+ * does not drop them.
+ */
+[data-palette="my-design-system"] {
+  --balsa-color-muted-foreground: #6d55e1;
+  --balsa-color-input-border: #8a7bea;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -44,6 +60,12 @@
   h3 {
     font-family: var(--balsa-font-title, "Epilogue"), system-ui, sans-serif;
     text-wrap: balance;
+  }
+
+  /* No single word left alone on a paragraph's last line. */
+  p,
+  li {
+    text-wrap: pretty;
   }
 
   :focus-visible {

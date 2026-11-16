@@ -16,6 +16,8 @@ export interface Avviso {
   testo?: string;
   /** One line per field to fix, shown as a list. */
   voci?: readonly string[];
+  /** A way out, such as calling: shown as a link under the text. */
+  azione?: { etichetta: string; href: string };
 }
 
 export interface AvvisiApi {

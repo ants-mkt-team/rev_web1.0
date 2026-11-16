@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T12:00:00.000Z",
+  "title": "Design System: Revoluce",
+  "extensions": {
+    "colorMeta": {
+      "viola-revoluce": { "role": "primary", "displayName": "Viola Revoluce", "canonical": "oklch(49.5% 0.228 285.0)", "tonalRamp": ["#0a071d", "#250368", "#4300b2", "#5e38d9", "#7b60ff", "#9c87ff", "#c0bbff", "#ebecff"] },
+      "viola-revoluce-hover": { "role": "primary", "displayName": "Viola Revoluce chiaro", "canonical": "#684cde", "tonalRamp": ["#0a071d", "#250368", "#4300b2", "#5e38d9", "#7b60ff", "#9c87ff", "#c0bbff", "#ebecff"] },
+      "lilla-ricarica": { "role": "secondary", "displayName": "Lilla Ricarica", "canonical": "oklch(87.5% 0.066 298.7)", "tonalRamp": ["#0c0a10", "#282037", "#473a60", "#665982", "#877aa5", "#aa9cc9", "#ccc4e1", "#efedf5"] },
+      "bianco-carta": { "role": "neutral", "displayName": "Bianco Carta", "canonical": "#ffffff", "tonalRamp": ["#0b0b0b", "#252525", "#424242", "#616161", "#828282", "#a5a5a5", "#c9c9c9", "#eeeeee"] },
+      "lilla-campo": { "role": "neutral", "displayName": "Lilla Campo", "canonical": "oklch(96.5% 0.019 299.1)", "tonalRamp": ["#0b0b0d", "#26242a", "#43404b", "#625f6b", "#84808c", "#a6a3b0", "#cac8d0", "#efeef0"] },
+      "lilla-bordo": { "role": "neutral", "displayName": "Lilla Bordo", "canonical": "oklch(71.5% 0.134 289.0)", "tonalRamp": ["#0b0916", "#251a4c", "#432f83", "#6151a7", "#8173cd", "#a396f3", "#c7c1fc", "#eeecfc"] },
+      "giallo-luce": { "role": "tertiary", "displayName": "Giallo Luce", "canonical": "oklch(94.3% 0.069 93.0)", "tonalRamp": ["#0d0b05", "#2d2407", "#4f410e", "#6f6030", "#908251", "#b4a573", "#d2c9aa", "#f1eee6"] },
+      "arancio-gas": { "role": "tertiary", "displayName": "Arancio Gas", "canonical": "oklch(86.7% 0.091 72.0)", "tonalRamp": ["#100a04", "#371f00", "#5f3800", "#81581c", "#a47940", "#c99c63", "#e1c4a1", "#f5ede4"] },
+      "azzurro-fibra": { "role": "tertiary", "displayName": "Azzurro Fibra", "canonical": "oklch(89.5% 0.057 225.3)", "tonalRamp": ["#060c0f", "#0e2933", "#1b4859", "#3c687a", "#5d8a9c", "#7fadc0", "#b2cedb", "#e8f0f3"] },
+      "rosso-errore": { "role": "neutral", "displayName": "Rosso Errore", "canonical": "oklch(50.5% 0.190 27.5)", "tonalRamp": ["#180504", "#520000", "#8c0000", "#b51517", "#dd453c", "#ff6c5f", "#ffab9f", "#ffe7e3"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Solo il titolo della hero. Fluido: clamp(2.5rem, 5.6vw, 5.125rem)." },
+      "headline": { "displayName": "Headline", "purpose": "Titoli di sezione, Light con le parole chiave in 800 nell'evidenziatore. Fluido: clamp(2.25rem, 5vw, 4.5rem)." },
+      "numeral": { "displayName": "Numeral", "purpose": "Cifre-manifesto (6 mesi, 2020, 100%) e numero di telefono." },
+      "title": { "displayName": "Title", "purpose": "Titoli di card e form, sottotitoli interni." },
+      "body-lead": { "displayName": "Body lead", "purpose": "Paragrafo introduttivo sotto i titoli di sezione, max 30–35rem. Fluido: clamp(1.0625rem, 1.4vw, 1.25rem)." },
+      "body": { "displayName": "Body", "purpose": "Testi di card, passi e FAQ; note a 0.9375rem." },
+      "label": { "displayName": "Label", "purpose": "Etichette sopra i titoli di sezione: maiuscolo, corsivo, bold." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "balsa-fast", "value": "90ms linear", "purpose": "Hover e cambi di colore di pulsanti e link (tema Balsa \"snappy\")." },
+      { "name": "balsa-normal", "value": "140ms linear", "purpose": "Transizioni di superfici e card." },
+      { "name": "balsa-slow", "value": "220ms linear", "purpose": "Aperture di pannelli e menu." },
+      { "name": "lift", "value": "translateY(-2px)", "purpose": "Le card servizio della hero si alzano di 2px in hover." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Pulsante primario",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Azione principale sui fondi chiari e nei form: pillola viola con freccia.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">Calcola il preventivo <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 20px; border: 0; border-radius: 9999px; background: var(--balsa-color-primary, #5e39da); color: var(--balsa-color-background, #dbcdfc); font-family: Epilogue, system-ui, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: background-color 90ms linear; } .ds-btn-primary:hover { background: #684cde; } .ds-btn-primary:focus-visible { outline: 3px solid var(--balsa-color-primary, #5e39da); outline-offset: 3px; }"
+    },
+    {
+      "name": "Pulsante su viola",
+      "kind": "button",
+      "refersTo": "button-on-brand",
+      "description": "Azione principale nelle fasce viola (hero): pillola bianca grande.",
+      "html": "<div class=\"ds-brand-ground\"><a class=\"ds-btn-on-brand\" href=\"#preventivo\">Fai il preventivo</a></div>",
+      "css": ".ds-brand-ground { padding: 24px; background: var(--balsa-color-primary, #5e39da); } .ds-btn-on-brand { display: inline-flex; align-items: center; height: 56px; padding: 0 28px; border-radius: 9999px; background: #ffffff; color: var(--balsa-color-primary, #5e39da); font-family: Epilogue, system-ui, sans-serif; font-size: 18px; font-weight: 700; text-decoration: none; transition: background-color 90ms linear; } .ds-btn-on-brand:hover { background: var(--balsa-color-background, #dbcdfc); } .ds-btn-on-brand:focus-visible { outline: 3px solid #ffffff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Campo di testo",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo dei form: riempimento lilla chiaro, bordo pieno di 2px, etichetta sopra.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Nome</span><input class=\"ds-input\" type=\"text\" placeholder=\"Mario\" /></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: Epilogue, system-ui, sans-serif; color: var(--balsa-color-primary, #5e39da); } .ds-field-label { font-size: 14px; font-weight: 600; } .ds-input { height: 40px; padding: 0 12px; border: 2px solid #a194f1; border-radius: 8px; background: #f5f1ff; color: var(--balsa-color-primary, #5e39da); font: inherit; font-size: 16px; transition: border-color 90ms linear; } .ds-input::placeholder { color: #7c69e6; } .ds-input:hover { border-color: var(--balsa-color-primary, #5e39da); } .ds-input:focus-visible { outline: 3px solid var(--balsa-color-primary, #5e39da); outline-offset: 3px; border-color: var(--balsa-color-primary, #5e39da); } .ds-input[aria-invalid=\"true\"] { border-color: #b91c1c; }"
+    },
+    {
+      "name": "Etichetta",
+      "kind": "chip",
+      "refersTo": "etichetta",
+      "description": "Kicker sopra ogni titolo di sezione: angoli vivi, maiuscolo corsivo.",
+      "html": "<div class=\"ds-lilla-ground\"><span class=\"ds-etichetta\">Perché fidarti</span></div>",
+      "css": ".ds-lilla-ground { padding: 24px; background: var(--balsa-color-background, #dbcdfc); } .ds-etichetta { display: inline-block; padding: 8px 12px; background: #ffffff; color: var(--balsa-color-primary, #5e39da); font-family: Epilogue, system-ui, sans-serif; font-size: 16px; font-weight: 700; font-style: italic; text-transform: uppercase; letter-spacing: 0.025em; line-height: 1; }"
+    },
+    {
+      "name": "Titolo con evidenziatore",
+      "kind": "custom",
+      "refersTo": "evidenziatore",
+      "description": "Titolo di sezione Light con le parole chiave in ExtraBold dentro un riquadro pieno.",
+      "html": "<div class=\"ds-brand-ground-lg\"><h2 class=\"ds-headline\">Ti spieghiamo <span class=\"ds-evidenziatore\">tutto a voce.</span></h2></div>",
+      "css": ".ds-brand-ground-lg { padding: 32px; background: var(--balsa-color-primary, #5e39da); } .ds-headline { margin: 0; font-family: Epilogue, system-ui, sans-serif; font-size: 56px; font-weight: 300; line-height: 1.04; letter-spacing: -0.015em; color: #ffffff; } .ds-evidenziatore { display: inline-block; margin-top: 0.08em; padding: 0.03em 0.15em 0.07em; background: #ffffff; color: var(--balsa-color-primary, #5e39da); font-weight: 800; -webkit-box-decoration-break: clone; box-decoration-break: clone; }"
+    },
+    {
+      "name": "Card servizio Luce",
+      "kind": "card",
+      "refersTo": "card-servizio-luce",
+      "description": "Card di un servizio sul suo colore: icona, nome ExtraBold, descrizione e link con freccia.",
+      "html": "<a class=\"ds-card-servizio\" href=\"#servizi\"><span class=\"ds-card-servizio-cat\">Energia elettrica</span><span class=\"ds-card-servizio-nome\">Luce</span><span class=\"ds-card-servizio-testo\">Energia ricaricabile con prezzo tutto incluso: paghi solo quello che consumi.</span><span class=\"ds-card-servizio-link\">Scopri come funziona <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></span></a>",
+      "css": ".ds-card-servizio { display: flex; flex-direction: column; gap: 12px; max-width: 360px; padding: 32px; border-radius: 32px; background: #fcecb8; color: var(--balsa-color-primary, #5e39da); font-family: Epilogue, system-ui, sans-serif; text-decoration: none; transition: transform 140ms linear; } .ds-card-servizio:hover { transform: translateY(-2px); } .ds-card-servizio:focus-visible { outline: 3px solid var(--balsa-color-primary, #5e39da); outline-offset: 3px; } .ds-card-servizio-cat { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; } .ds-card-servizio-nome { font-size: 40px; font-weight: 800; line-height: 1; } .ds-card-servizio-testo { font-size: 17px; font-weight: 500; line-height: 1.5; } .ds-card-servizio-link { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }"
+    },
+    {
+      "name": "Avviso",
+      "kind": "custom",
+      "refersTo": "avviso",
+      "description": "Popup di stato dei form: bianco, bordo di 2px, cerchio icona; rosso per gli errori.",
+      "html": "<div class=\"ds-avviso\" role=\"status\"><span class=\"ds-avviso-icona\" aria-hidden=\"true\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21.801 10A10 10 0 1 1 17 3.335\"/><path d=\"m9 11 3 3L22 4\"/></svg></span><span class=\"ds-avviso-testi\"><strong class=\"ds-avviso-titolo\">Richiesta inviata</strong><span class=\"ds-avviso-testo\">Grazie! Un nostro Tutor ti richiama entro poche ore, dal lunedì al venerdì.</span></span></div>",
+      "css": ".ds-avviso { display: flex; align-items: flex-start; gap: 12px; max-width: 448px; padding: 16px; border: 2px solid var(--balsa-color-primary, #5e39da); border-radius: 18px; background: #ffffff; color: var(--balsa-color-primary, #5e39da); font-family: Epilogue, system-ui, sans-serif; } .ds-avviso-icona { display: flex; flex: none; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 9999px; background: var(--balsa-color-primary, #5e39da); color: var(--balsa-color-background, #dbcdfc); } .ds-avviso-testi { display: flex; flex-direction: column; gap: 4px; padding-top: 2px; } .ds-avviso-titolo { font-size: 16px; font-weight: 700; line-height: 1.375; } .ds-avviso-testo { font-size: 14px; line-height: 1.5; }"
+    },
+    {
+      "name": "Barra di navigazione",
+      "kind": "nav",
+      "description": "Navbar lilla con logo, voci di testo viola e due pillole d'azione.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Principale\"><span class=\"ds-nav-logo\">revoluce</span><span class=\"ds-nav-voci\"><a href=\"#servizi\">Luce</a><a href=\"#servizi\">Gas</a><a href=\"#servizi\">Fibra</a><a href=\"#prezzo\">Come funziona</a></span><span class=\"ds-nav-azioni\"><a class=\"ds-nav-outline\" href=\"#\">Area clienti</a><a class=\"ds-nav-solid\" href=\"#preventivo\">Preventivo</a></span></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 10px 24px; background: var(--balsa-color-background, #dbcdfc); border-bottom: 1px solid #c7baf9; color: var(--balsa-color-primary, #5e39da); font-family: Epilogue, system-ui, sans-serif; } .ds-nav-logo { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; } .ds-nav-voci { display: flex; gap: 24px; font-size: 15px; font-weight: 600; } .ds-nav-voci a { color: inherit; text-decoration: none; } .ds-nav-voci a:hover { text-decoration: underline; text-underline-offset: 4px; } .ds-nav-azioni { display: flex; gap: 12px; } .ds-nav-outline, .ds-nav-solid { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border: 2px solid var(--balsa-color-primary, #5e39da); border-radius: 9999px; font-size: 14px; font-weight: 700; text-decoration: none; transition: background-color 90ms linear; } .ds-nav-outline { color: var(--balsa-color-primary, #5e39da); } .ds-nav-outline:hover { background: var(--balsa-color-background, #dbcdfc); } .ds-nav-solid { background: var(--balsa-color-primary, #5e39da); color: var(--balsa-color-background, #dbcdfc); } .ds-nav-solid:hover { background: #684cde; } .ds-nav a:focus-visible { outline: 3px solid var(--balsa-color-primary, #5e39da); outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Il manifesto viola",
+    "overview": "Revoluce parla come un manifesto. Grandi campi di colore pieno, titoli enormi in un peso leggero e, dentro, poche parole chiave in grassetto pieno dentro un riquadro bianco, come se qualcuno ci fosse passato sopra con l'evidenziatore. Il nome dice rivoluzione e la grafica lo prende sul serio, ma con il sorriso. L'ironia dei testi (\"niente lag, niente drammi\") si ritrova negli elementi ruotati come adesivi, nella curva della \"r\" che attraversa le sezioni e nei colori dei servizi.\n\nL'atmosfera è insieme diretta, calda, giocosa ed energica. Diretta perché tutto è in vista: un prezzo, un numero di telefono, nessuna nota a piè di pagina. Calda perché parla con il tu e mette in primo piano persone vere. Giocosa ed energica perché usa colori saturi e contrasti netti a un ritmo vivace, che si alterna tra viola, lilla e bianco.\n\nDue cose che Revoluce non deve mai sembrare. La prima è il grande gestore: blu istituzionale, foto stock di famiglie sorridenti, tono distaccato. La seconda è il volantino aggressivo: prezzi urlati, offerte lampeggianti, asterischi e scritte piccole.",
+    "keyCharacteristics": [
+      "Tre fondi pieni che si alternano a sezioni intere: Viola Revoluce, Lilla Ricarica, Bianco Carta.",
+      "Titoli in Epilogue Light molto grandi, con le parole chiave in ExtraBold dentro un riquadro evidenziatore.",
+      "Nessuna ombra: la profondità nasce dal contrasto tra i fondi e dai bordi pieni di 2 px.",
+      "Azioni a pillola, contenitori arrotondati, etichette ed evidenziatori ad angolo vivo.",
+      "Elementi ruotati di pochi gradi, come adesivi, e la curva della \"r\" come firma decorativa."
+    ],
+    "rules": [
+      { "name": "La regola del campo pieno", "body": "Ogni sezione sta su un solo fondo pieno: viola, lilla o bianco. Niente sfumature, niente fondi mescolati, niente immagini sotto il testo.", "section": "colors" },
+      { "name": "La regola del servizio", "body": "Giallo Luce, Arancio Gas e Azzurro Fibra significano il loro servizio. Non diventano mai decorazione generica né colori d'accento.", "section": "colors" },
+      { "name": "La regola dell'evidenziatore", "body": "Un titolo è Light, e solo da una a tre parole chiave passano in ExtraBold dentro un riquadro pieno: bianco su viola e su lilla, lilla su bianco, giallo per la luce. Mai un titolo intero evidenziato.", "section": "typography" },
+      { "name": "La regola dei pesi estremi", "body": "In un titolo si usano solo 300 e 800. I pesi intermedi stanno nel corpo del testo.", "section": "typography" },
+      { "name": "La regola del piatto", "body": "Nessuna ombra, nessun effetto vetro, nessun gradiente. Se un elemento deve staccarsi, cambia il fondo o prende un bordo di 2 px.", "section": "elevation" },
+      { "name": "La regola della pillola", "body": "Ciò che si clicca è una pillola, ciò che contiene è arrotondato, ciò che si legge come etichetta ha gli angoli vivi.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do alternare le fasce tra Viola Revoluce, Lilla Ricarica e Bianco Carta, mai due fasce dello stesso fondo una dopo l'altra.",
+      "Do scrivere i titoli in Epilogue 300 con spaziatura −0,015 em ed evidenziare da una a tre parole chiave in 800 dentro un riquadro pieno.",
+      "Do usare Epilogue 800 grande per numeri e prove concrete: \"6 mesi\", il numero di telefono, gli anni.",
+      "Do dare forma di pillola a tutte le azioni e un bordo pieno di 2 px a ogni contorno.",
+      "Do mantenere il contrasto WCAG 2.2 AA: viola su lilla circa 4,6:1, bianco su viola circa 6,8:1, e un anello di focus di 3 px sempre visibile."
+    ],
+    "donts": [
+      "Don't aggiungere ombre, effetti vetro o gradienti: il sistema è piatto.",
+      "Don't usare Giallo Luce, Arancio Gas o Azzurro Fibra fuori dal loro servizio.",
+      "Don't sembrare un grande gestore: niente blu istituzionale, niente foto stock di famiglie sorridenti, niente tono distaccato.",
+      "Don't sembrare un volantino aggressivo: niente prezzi urlati, offerte lampeggianti, asterischi o scritte piccole in fondo.",
+      "Don't usare il Rosso Errore per decorare o per dare enfasi: compare solo negli stati di errore."
+    ]
+  }
+}

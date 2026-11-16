@@ -49,7 +49,7 @@ export function AvvisiProvider({ children }: { children: ReactNode }) {
 }
 
 function AvvisoCard({ avviso, chiudi }: { avviso: Avviso; chiudi: (id: number) => void }) {
-  const { id, tipo, titolo, testo, voci } = avviso;
+  const { id, tipo, titolo, testo, voci, azione } = avviso;
   const negativo = tipo === "errore" || tipo === "campi";
   const Icona = icone[tipo];
 
@@ -86,6 +86,14 @@ function AvvisoCard({ avviso, chiudi }: { avviso: Avviso; chiudi: (id: number) =
               <li key={voce}>{voce}</li>
             ))}
           </ul>
+        ) : null}
+        {azione ? (
+          <a
+            href={azione.href}
+            className="mt-1 self-start text-sm font-bold text-balsa-primary underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-balsa-focus-ring"
+          >
+            {azione.etichetta}
+          </a>
         ) : null}
       </div>
       {tipo === "invio" ? null : (

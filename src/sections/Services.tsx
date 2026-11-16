@@ -26,7 +26,7 @@ export function Services() {
 
         <ul className="m-0 grid list-none gap-6 p-0 md:grid-cols-3">
           {services.map((service) => (
-            <li key={service.id} className="flex">
+            <li key={service.id} id={`servizio-${service.id}`} className="flex scroll-mt-24">
               <a
                 href={service.href}
                 className={`group flex min-h-[27.5rem] w-full flex-col justify-between gap-12 rounded-[2rem] p-8 text-balsa-primary no-underline ${ground[service.id]}`}

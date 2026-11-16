@@ -1,10 +1,11 @@
 import { useRef, useState, type FormEvent } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CircleAlert } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Input } from "@/components/ui/Input";
 import { useAvvisi } from "@/components/revoluce/avvisi-context";
+import { isEmail, isPhone, normalizePhone, restoreSubmitFocus } from "@/components/revoluce/forms";
 import { Highlight, Kicker, Section } from "@/components/revoluce/primitives";
 import { formMessages, site } from "@/content";
 
@@ -30,10 +31,6 @@ async function sendContactRequest(request: ContactRequest): Promise<void> {
   throw new Error("The lead endpoint is not connected yet.");
 }
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-/** 6 to 15 digits with an optional "+" or "00" prefix, checked after removing spaces, dots, dashes and slashes. */
-const phonePattern = /^(\+|00)?\d{6,15}$/;
-
 export function Contact() {
   const { mostra, chiudi } = useAvvisi();
   const [invalid, setInvalid] = useState<Partial<Record<ContactField, boolean>>>({});
@@ -52,7 +49,7 @@ export function Contact() {
     const data = new FormData(form);
     const nome = String(data.get("nome") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
-    const telefono = String(data.get("telefono") ?? "").replace(/[\s./-]/g, "");
+    const telefono = normalizePhone(String(data.get("telefono") ?? ""));
 
     const errors: Partial<Record<ContactField, boolean>> = {};
     const lines: string[] = [];
@@ -60,11 +57,11 @@ export function Contact() {
       errors.nome = true;
       lines.push(formMessages.fields.name);
     }
-    if (!emailPattern.test(email)) {
+    if (!isEmail(email)) {
       errors.email = true;
       lines.push(formMessages.fields.email);
     }
-    if (!phonePattern.test(telefono)) {
+    if (!isPhone(telefono)) {
       errors.telefono = true;
       lines.push(formMessages.fields.phone);
     }
@@ -90,10 +87,16 @@ export function Contact() {
       form.reset();
       setPrivacy(false);
     } catch {
-      lastPopup.current = mostra({ tipo: "errore", titolo: formMessages.failed.title, testo: formMessages.failed.text });
+      lastPopup.current = mostra({
+        tipo: "errore",
+        titolo: formMessages.failed.title,
+        testo: formMessages.failed.text,
+        azione: formMessages.failed.action,
+      });
     } finally {
       chiudi(sendingPopup);
       setSending(false);
+      restoreSubmitFocus(form);
     }
   }
 
@@ -180,11 +183,14 @@ export function Contact() {
                 statusMessage=""
                 onValueChange={() => clear("email")}
               />
+              {/* type="phone" opens the phone keypad; mask="" turns off Balsa's default
+                  "(##) #####-####" mask, which is not an Italian format. */}
               <Input
                 id="contatti-telefono"
                 name="telefono"
                 label="Telefono"
                 type="phone"
+                mask=""
                 autoComplete="tel"
                 required
                 status={fieldStatus("telefono")}
@@ -204,6 +210,12 @@ export function Contact() {
               }}
               className={invalid.privacy ? "[&_input]:border-balsa-destructive" : undefined}
             />
+            {invalid.privacy ? (
+              <p className="-mt-3 mb-0 flex items-center gap-1.5 text-sm font-semibold text-balsa-destructive">
+                <CircleAlert aria-hidden="true" className="size-4 flex-none" strokeWidth={2.5} />
+                Serve il tuo consenso per ricontattarti.
+              </p>
+            ) : null}
             <Button type="submit" size="lg" shape="pill" suffixIcon={ArrowRight} loading={sending} className="w-full font-bold">
               Ricontattami
             </Button>

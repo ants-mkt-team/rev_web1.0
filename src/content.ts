@@ -77,9 +77,9 @@ export const services: readonly Service[] = [
 ];
 
 export const navItems = [
-  { title: "Luce", link: "#servizi" },
-  { title: "Gas", link: "#servizi" },
-  { title: "Fibra", link: "#servizi" },
+  { title: "Luce", link: "#servizio-luce" },
+  { title: "Gas", link: "#servizio-gas" },
+  { title: "Fibra", link: "#servizio-fibra" },
   { title: "Come funziona", link: "#prezzo" },
   { title: "Testimonianze", link: "#testimonianze" },
   { title: "Contatti", link: "#contatti" },
@@ -240,13 +240,14 @@ export const formMessages = {
   sending: { title: "Invio in corso…", text: "Ci vuole solo un attimo." },
   failed: {
     title: "Invio non riuscito",
-    text: `Non siamo riusciti a inviare i tuoi dati. Riprova tra poco oppure chiamaci allo ${site.phone}.`,
+    text: `Non siamo riusciti a inviare i tuoi dati. Riprova tra poco oppure chiamaci (${site.hours}).`,
+    action: { etichetta: `Chiama lo ${site.phone}`, href: site.phoneHref },
   },
   quote: {
     missing: "Mancano alcuni dati per il preventivo",
     sent: {
       title: "Preventivo in arrivo",
-      text: "Stiamo preparando il video con il calcolo fatto sui tuoi consumi.",
+      text: "Ti mandiamo via email il video con il calcolo fatto sui tuoi consumi.",
     },
   },
   contact: {
@@ -261,7 +262,7 @@ export const formMessages = {
     usage: "Indica il consumo mensile in kWh oppure la spesa mensile in euro.",
     positive: "Consumo e spesa devono essere numeri maggiori di zero.",
     email: "Scrivi un indirizzo email valido, per esempio nome@esempio.it.",
-    phone: "Scrivi un numero di telefono valido, solo cifre.",
+    phone: "Scrivi un numero di telefono completo, per esempio 333 123 4567.",
     privacy: "Per ricontattarti ci serve il tuo consenso al trattamento dei dati.",
   },
 } as const;

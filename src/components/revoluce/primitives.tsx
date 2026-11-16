@@ -131,14 +131,21 @@ export function SectionHeading({
   );
 }
 
-/** The "r" curve of the Revoluce mark, used as a large decorative path. */
+/**
+ * The "r" curve of the Revoluce mark, used as a large decorative path.
+ *
+ * It runs behind body text, so its tone always moves the ground away from the
+ * text colour: darker violet on violet bands (lilac and white text stay above
+ * 5:1), white on lilac bands (violet text stays above 5:1). A lighter curve on
+ * violet or a violet curve on lilac would pull the text below WCAG AA.
+ */
 export function Curve({ className = "", onBrand = false }: { className?: string; onBrand?: boolean }) {
   return (
     <svg
       aria-hidden="true"
       focusable="false"
       viewBox="0 0 2278.39 721.7"
-      className={`pointer-events-none absolute z-0 h-auto ${onBrand ? "text-balsa-surface/10" : "text-balsa-primary/10"} ${className}`}
+      className={`pointer-events-none absolute z-0 h-auto ${onBrand ? "text-balsa-secondary/60" : "text-balsa-surface/40"} ${className}`}
       fill="currentColor"
     >
       <path d="M30.02,416c246.15,231.41,624.08,327.05,913.58,19.11l264.04-280.87c34.93-37.16,33.13-95.78-4.01-130.69-35.63-33.5-94.73-30.94-129.06,5.58l-264.04,280.87c-193,205.29-475.79,141.76-655.4-27.09-37.15-34.93-95.78-33.13-130.67,3.99-34.65,36.88-32.22,93.58,5.56,129.1" />

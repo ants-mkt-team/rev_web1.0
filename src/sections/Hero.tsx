@@ -1,8 +1,8 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import decoroLuce from "@/assets/revoluce/decoro-luce.svg";
 import { Link } from "@/components/ui/Link";
 import { Curve, Highlight, Kicker, Section } from "@/components/revoluce/primitives";
-import { services, site, trustPoints, type ServiceId } from "@/content";
+import { services, trustPoints, type ServiceId } from "@/content";
 
 const serviceGround: Record<ServiceId, string> = {
   luce: "bg-rv-luce",
@@ -49,7 +49,7 @@ export function Hero() {
           </p>
           <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
             <Link
-              href={site.howItWorks}
+              href="#preventivo"
               variant="solid"
               color="neutral"
               size="lg"
@@ -57,15 +57,15 @@ export function Hero() {
               suffixIcon={ArrowRight}
               className="h-14 px-7 text-lg bg-balsa-surface font-bold text-balsa-primary hover:bg-balsa-background"
             >
-              Scopri come funziona
+              Quanto spendo? Fai il preventivo
             </Link>
             <Link
-              href="#preventivo"
+              href="#prezzo"
               variant="text"
               size="lg"
               className="px-0 text-lg font-bold text-balsa-surface underline decoration-balsa-surface underline-offset-[6px] hover:text-balsa-background"
             >
-              Quanto spendo? Fai il preventivo
+              Scopri come funziona
             </Link>
           </div>
           <ul className="m-0 mt-2 flex list-none flex-wrap gap-x-6 gap-y-2.5 p-0 text-[0.9375rem] font-semibold">
@@ -82,10 +82,12 @@ export function Hero() {
           <span className="relative z-30 -mb-3.5 mr-3.5 self-end -rotate-6 bg-balsa-surface px-4 py-3 text-[1.1875rem] font-extrabold leading-none text-balsa-primary">
             dal 2016: 10 anni di revoluzione
           </span>
+          {/* All three cards lead to their own card in the services band, so the hero
+              keeps visitors on the page; the services band holds the outbound links. */}
           {services.map((service) => (
             <a
               key={service.id}
-              href={service.href}
+              href={`#servizio-${service.id}`}
               className={`relative flex items-center gap-5 rounded-[1.75rem] px-6 py-6 text-balsa-primary no-underline transition-transform hover:-translate-y-0.5 ${serviceGround[service.id]} ${stackPlacement[service.id]}`}
             >
               <span className="flex size-14 flex-none items-center justify-center rounded-full bg-balsa-primary sm:size-[4.25rem]">
@@ -95,7 +97,7 @@ export function Hero() {
                 <span className="font-balsa-title text-3xl font-extrabold leading-none sm:text-4xl">{service.name}</span>
                 <span className="text-lg leading-tight sm:text-2xl">{service.short}</span>
               </span>
-              <ArrowUpRight aria-hidden="true" className="ml-auto size-7 flex-none" strokeWidth={2.5} />
+              <ArrowDown aria-hidden="true" className="ml-auto size-7 flex-none" strokeWidth={2.5} />
             </a>
           ))}
         </div>

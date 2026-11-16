@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/Input";
 import { RadioGroup } from "@/components/ui/RadioGroup";
 import { Select } from "@/components/ui/Select";
 import { useAvvisi } from "@/components/revoluce/avvisi-context";
+import { isEmail, restoreSubmitFocus } from "@/components/revoluce/forms";
 import { Curve, Highlight, Kicker, Section } from "@/components/revoluce/primitives";
-import { formMessages } from "@/content";
+import { formMessages, site } from "@/content";
 
 const utenze = [
   { label: "Domestico Residente", value: "domestico-residente" },
@@ -27,10 +28,12 @@ const pagamenti = [
 
 const steps = ["Inserisci i tuoi dati", "Attendi il calcolo", "Ricevi il tuo video"] as const;
 
-type QuoteField = "nome" | "kwh" | "spesa";
+type QuoteField = "nome" | "email" | "kwh" | "spesa";
 
 interface QuoteRequest {
   nome: string;
+  /** Where the quote video is sent. */
+  email: string;
   utenza: string;
   potenza: string;
   kwh: number | null;
@@ -38,7 +41,7 @@ interface QuoteRequest {
   pagamento: string;
 }
 
-// TODO: connect to Revoluce's quote service, which returns the personalised video.
+// TODO: connect to Revoluce's quote service, which emails the personalised video.
 // Until then every request fails, so the visitor sees the "invio non riuscito" popup
 // with the phone number instead of a confirmation for a request nobody received.
 async function sendQuote(request: QuoteRequest): Promise<void> {
@@ -71,6 +74,7 @@ export function Quote() {
     const form = event.currentTarget;
     const data = new FormData(form);
     const nome = String(data.get("nome") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim();
     const kwh = readAmount(data.get("kwh"));
     const spesa = readAmount(data.get("spesa"));
 
@@ -79,6 +83,10 @@ export function Quote() {
     if (!nome) {
       errors.nome = true;
       lines.push(formMessages.fields.name);
+    }
+    if (!isEmail(email)) {
+      errors.email = true;
+      lines.push(formMessages.fields.email);
     }
     if (kwh === null && spesa === null) {
       errors.kwh = errors.spesa = true;
@@ -93,7 +101,7 @@ export function Quote() {
     if (lastPopup.current !== null) chiudi(lastPopup.current);
     if (lines.length) {
       lastPopup.current = mostra({ tipo: "campi", titolo: formMessages.quote.missing, voci: lines });
-      const first = (["nome", "kwh", "spesa"] as const).find((field) => errors[field]);
+      const first = (["nome", "email", "kwh", "spesa"] as const).find((field) => errors[field]);
       if (first) document.getElementById(`preventivo-${first}`)?.focus();
       return;
     }
@@ -103,6 +111,7 @@ export function Quote() {
     try {
       await sendQuote({
         nome,
+        email,
         ...selects.current,
         kwh: kwh as number | null,
         spesa: spesa as number | null,
@@ -111,10 +120,16 @@ export function Quote() {
       lastPopup.current = mostra({ tipo: "successo", titolo: formMessages.quote.sent.title, testo: formMessages.quote.sent.text });
       form.reset();
     } catch {
-      lastPopup.current = mostra({ tipo: "errore", titolo: formMessages.failed.title, testo: formMessages.failed.text });
+      lastPopup.current = mostra({
+        tipo: "errore",
+        titolo: formMessages.failed.title,
+        testo: formMessages.failed.text,
+        azione: formMessages.failed.action,
+      });
     } finally {
       chiudi(sendingPopup);
       setSending(false);
+      restoreSubmitFocus(form);
     }
   }
 
@@ -133,8 +148,8 @@ export function Quote() {
             <Highlight>spendo?</Highlight>
           </h2>
           <p className="m-0 max-w-[32rem] text-[clamp(1.0625rem,1.4vw,1.25rem)] leading-relaxed text-balsa-background">
-            Scopriamolo subito insieme. Inserisci pochi dati e in 30 secondi ricevi il tuo preventivo
-            dedicato, spiegato in un video.
+            Scopriamolo subito insieme. Inserisci pochi dati e in 30 secondi ricevi via email il tuo
+            preventivo dedicato, spiegato in un video.
           </p>
           <ol className="m-0 mt-3 flex w-full list-none flex-wrap items-center gap-x-3.5 gap-y-4 p-0">
             {steps.map((step, index) => (
@@ -170,10 +185,22 @@ export function Quote() {
               name="nome"
               label="Il tuo nome"
               autoComplete="given-name"
-              variant="outline"
+              required
               status={fieldStatus("nome")}
               statusMessage=""
               onValueChange={() => clear("nome")}
+            />
+            <Input
+              id="preventivo-email"
+              name="email"
+              label="La tua email"
+              type="email"
+              autoComplete="email"
+              required
+              hint="Ti mandiamo qui il video del preventivo."
+              status={fieldStatus("email")}
+              statusMessage=""
+              onValueChange={() => clear("email")}
             />
             <div className="grid gap-5 sm:grid-cols-[1.4fr_1fr]">
               <Select
@@ -191,7 +218,10 @@ export function Quote() {
                 onValueChange={(value) => { selects.current.potenza = String(value); }}
               />
             </div>
-            <div className="grid gap-5 sm:grid-cols-2">
+            <fieldset className="m-0 grid min-w-0 gap-x-5 gap-y-3 border-0 p-0 sm:grid-cols-2">
+              <legend className="mb-3 p-0 text-base font-bold">
+                Consumo o spesa: basta uno dei due
+              </legend>
               <Input
                 id="preventivo-kwh"
                 name="kwh"
@@ -212,7 +242,10 @@ export function Quote() {
                 statusMessage=""
                 onValueChange={() => { clear("kwh"); clear("spesa"); }}
               />
-            </div>
+              <p className="m-0 text-sm font-medium leading-snug sm:col-span-2">
+                Li trovi in bolletta. Se la tua bolletta è bimestrale, dividi per due.
+              </p>
+            </fieldset>
             <RadioGroup
               id="preventivo-pagamento"
               name="pagamento"
@@ -225,7 +258,11 @@ export function Quote() {
               Calcola il preventivo
             </Button>
             <p className="m-0 text-sm font-medium leading-snug">
-              Ricevi un video con il calcolo fatto sui tuoi consumi.
+              Preferisci parlarne con una persona?{" "}
+              <a href={site.phoneHref} className="font-bold text-balsa-primary underline underline-offset-4 hover:no-underline">
+                Chiamaci allo {site.phone}
+              </a>
+              .
             </p>
           </form>
         </Card>
