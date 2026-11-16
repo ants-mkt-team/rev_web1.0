@@ -39,6 +39,7 @@ Per usare i colori nel codice: `bg-balsa-primary`, `text-balsa-foreground`, `bg-
 - `src/components/revoluce/primitives.tsx`: piccoli pezzi di layout (sezione, titolo con evidenziatore, curva della "r").
 - `src/components/revoluce/Avvisi.tsx` e `avvisi-context.ts`: gli avvisi a schermo dei form (dati mancanti, invio in corso, inviato, invio non riuscito). Si mostrano con `useAvvisi().mostra(...)`. I testi sono in `formMessages` dentro `src/content.ts`, tutti in italiano: i form usano `noValidate` e passano `statusMessage=""` ai campi, così non compaiono né i fumetti del browser né i messaggi inglesi di Balsa.
 - `src/components/ui/`: sorgente dei componenti Balsa. Aggiornali con la CLI di Balsa, non a mano.
+- `.claude/skills/impeccable/` e `.claude/agents/impeccable-*`: [Impeccable](https://impeccable.style) 4.9.2, skill di design per Claude Code. In chat, `/impeccable` elenca i comandi (`critique`, `audit`, `polish`…). È installato senza hook, quindi non controlla nulla in automatico. Per aggiornarlo: `npx impeccable update`. Le sue correzioni ai componenti Balsa passano da tema, palette, props o `className`, mai dai file in `src/components/ui/`.
 
 ## Note su Balsa UI 0.8.1
 
