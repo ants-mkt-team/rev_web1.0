@@ -37,6 +37,7 @@ Per usare i colori nel codice: `bg-balsa-primary`, `text-balsa-foreground`, `bg-
 - `src/content.ts`: testi e link della homepage, presi da www.revoluce.it.
 - `src/sections/`: le sezioni della pagina (hero, prezzo, preventivo, servizi, app Enrica, garanzie, testimonianze, FAQ, contatti, blog, chiusura e footer).
 - `src/components/revoluce/primitives.tsx`: piccoli pezzi di layout (sezione, titolo con evidenziatore, curva della "r").
+- `src/components/revoluce/Avvisi.tsx` e `avvisi-context.ts`: gli avvisi a schermo dei form (dati mancanti, invio in corso, inviato, invio non riuscito). Si mostrano con `useAvvisi().mostra(...)`. I testi sono in `formMessages` dentro `src/content.ts`, tutti in italiano: i form usano `noValidate` e passano `statusMessage=""` ai campi, così non compaiono né i fumetti del browser né i messaggi inglesi di Balsa.
 - `src/components/ui/`: sorgente dei componenti Balsa. Aggiornali con la CLI di Balsa, non a mano.
 
 ## Note su Balsa UI 0.8.1
@@ -48,6 +49,6 @@ Per usare i colori nel codice: `bg-balsa-primary`, `text-balsa-foreground`, `bg-
 
 ## Da completare
 
-- I form "Il tuo preventivo" e "Ne parliamo?" non inviano ancora nulla. Vanno collegati al preventivatore e al servizio contatti di Revoluce (vedi i `TODO` in `src/sections/Quote.tsx` e `src/sections/Contact.tsx`).
+- I form "Il tuo preventivo" e "Ne parliamo?" controllano i dati ma non inviano ancora nulla: finché `sendQuote` e `sendContactRequest` non sono collegati al preventivatore e al servizio contatti di Revoluce, ogni invio mostra l'avviso "Invio non riuscito" con il numero di telefono (vedi i `TODO` in `src/sections/Quote.tsx` e `src/sections/Contact.tsx`).
 - Lo schermo dell'app Enrica è un mock-up illustrativo: sostituiscilo con uno screenshot reale.
 - La card Gas porta a `#contatti` perché sul sito non c'è ancora una pagina dell'offerta gas.

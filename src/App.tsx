@@ -1,3 +1,4 @@
+import { AvvisiProvider } from "@/components/revoluce/Avvisi";
 import { Blog } from "@/sections/Blog";
 import { Closing, SiteFooter } from "@/sections/Closing";
 import { Contact } from "@/sections/Contact";
@@ -12,7 +13,7 @@ import { Guarantees, Testimonials } from "@/sections/Trust";
 
 export default function App() {
   return (
-    <>
+    <AvvisiProvider>
       <Header />
       <main id="contenuto" className="font-balsa-body">
         <Hero />
@@ -28,6 +29,6 @@ export default function App() {
         <Closing />
       </main>
       <SiteFooter />
-    </>
+    </AvvisiProvider>
   );
 }

@@ -1,11 +1,13 @@
-import type { FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { RadioGroup } from "@/components/ui/RadioGroup";
 import { Select } from "@/components/ui/Select";
+import { useAvvisi } from "@/components/revoluce/avvisi-context";
 import { Curve, Highlight, Kicker, Section } from "@/components/revoluce/primitives";
+import { formMessages } from "@/content";
 
 const utenze = [
   { label: "Domestico Residente", value: "domestico-residente" },
@@ -25,12 +27,97 @@ const pagamenti = [
 
 const steps = ["Inserisci i tuoi dati", "Attendi il calcolo", "Ricevi il tuo video"] as const;
 
-function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault();
-  // TODO: connect to Revoluce's quote service, which returns the personalised video.
+type QuoteField = "nome" | "kwh" | "spesa";
+
+interface QuoteRequest {
+  nome: string;
+  utenza: string;
+  potenza: string;
+  kwh: number | null;
+  spesa: number | null;
+  pagamento: string;
+}
+
+// TODO: connect to Revoluce's quote service, which returns the personalised video.
+// Until then every request fails, so the visitor sees the "invio non riuscito" popup
+// with the phone number instead of a confirmation for a request nobody received.
+async function sendQuote(request: QuoteRequest): Promise<void> {
+  void request;
+  throw new Error("The quote service is not connected yet.");
+}
+
+/** "12,5" and "12.5" are both accepted; empty means not given. */
+function readAmount(value: FormDataEntryValue | null): number | null | "invalid" {
+  const text = String(value ?? "").trim().replace(",", ".");
+  if (!text) return null;
+  const amount = Number(text);
+  return Number.isFinite(amount) && amount > 0 ? amount : "invalid";
 }
 
 export function Quote() {
+  const { mostra, chiudi } = useAvvisi();
+  const [invalid, setInvalid] = useState<Partial<Record<QuoteField, boolean>>>({});
+  const [sending, setSending] = useState(false);
+  const selects = useRef({ utenza: "domestico-residente", potenza: "3" });
+  const lastPopup = useRef<number | null>(null);
+
+  const fieldStatus = (field: QuoteField) => (invalid[field] ? "unvalidated" : "default");
+  const clear = (field: QuoteField) => {
+    if (invalid[field]) setInvalid((current) => ({ ...current, [field]: false }));
+  };
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const nome = String(data.get("nome") ?? "").trim();
+    const kwh = readAmount(data.get("kwh"));
+    const spesa = readAmount(data.get("spesa"));
+
+    const errors: Partial<Record<QuoteField, boolean>> = {};
+    const lines: string[] = [];
+    if (!nome) {
+      errors.nome = true;
+      lines.push(formMessages.fields.name);
+    }
+    if (kwh === null && spesa === null) {
+      errors.kwh = errors.spesa = true;
+      lines.push(formMessages.fields.usage);
+    } else if (kwh === "invalid" || spesa === "invalid") {
+      if (kwh === "invalid") errors.kwh = true;
+      if (spesa === "invalid") errors.spesa = true;
+      lines.push(formMessages.fields.positive);
+    }
+
+    setInvalid(errors);
+    if (lastPopup.current !== null) chiudi(lastPopup.current);
+    if (lines.length) {
+      lastPopup.current = mostra({ tipo: "campi", titolo: formMessages.quote.missing, voci: lines });
+      const first = (["nome", "kwh", "spesa"] as const).find((field) => errors[field]);
+      if (first) document.getElementById(`preventivo-${first}`)?.focus();
+      return;
+    }
+
+    setSending(true);
+    const sendingPopup = mostra({ tipo: "invio", titolo: formMessages.sending.title, testo: formMessages.sending.text });
+    try {
+      await sendQuote({
+        nome,
+        ...selects.current,
+        kwh: kwh as number | null,
+        spesa: spesa as number | null,
+        pagamento: String(data.get("pagamento") ?? "carta"),
+      });
+      lastPopup.current = mostra({ tipo: "successo", titolo: formMessages.quote.sent.title, testo: formMessages.quote.sent.text });
+      form.reset();
+    } catch {
+      lastPopup.current = mostra({ tipo: "errore", titolo: formMessages.failed.title, testo: formMessages.failed.text });
+    } finally {
+      chiudi(sendingPopup);
+      setSending(false);
+    }
+  }
+
   return (
     <Section id="preventivo" tone="brand" labelledBy="preventivo-title">
       <Curve onBrand className="-bottom-[12%] -left-[40%] w-[110%] -rotate-20" />
@@ -74,23 +161,57 @@ export function Quote() {
           shadow={false}
           className="mx-auto w-full min-w-0 max-w-[34rem] flex-[1_1_26rem] border-0 bg-balsa-surface text-balsa-primary"
         >
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5" aria-labelledby="preventivo-form-title">
+          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5" aria-labelledby="preventivo-form-title">
             <h3 id="preventivo-form-title" className="m-0 text-3xl font-extrabold leading-tight">
               Il tuo preventivo
             </h3>
-            <Input id="preventivo-nome" label="Il tuo nome" autoComplete="given-name" variant="outline" />
+            <Input
+              id="preventivo-nome"
+              name="nome"
+              label="Il tuo nome"
+              autoComplete="given-name"
+              variant="outline"
+              status={fieldStatus("nome")}
+              statusMessage=""
+              onValueChange={() => clear("nome")}
+            />
             <div className="grid gap-5 sm:grid-cols-[1.4fr_1fr]">
               <Select
                 id="preventivo-utenza"
                 label="Tipo utenza"
                 options={utenze}
                 defaultValue="domestico-residente"
+                onValueChange={(value) => { selects.current.utenza = String(value); }}
               />
-              <Select id="preventivo-potenza" label="Potenza" options={potenze} defaultValue="3" />
+              <Select
+                id="preventivo-potenza"
+                label="Potenza"
+                options={potenze}
+                defaultValue="3"
+                onValueChange={(value) => { selects.current.potenza = String(value); }}
+              />
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
-              <Input id="preventivo-kwh" label="Consumo mensile (kWh)" type="number" inputMode="numeric" />
-              <Input id="preventivo-spesa" label="Spesa mensile (€)" type="number" inputMode="decimal" />
+              <Input
+                id="preventivo-kwh"
+                name="kwh"
+                label="Consumo mensile (kWh)"
+                type="number"
+                inputMode="numeric"
+                status={fieldStatus("kwh")}
+                statusMessage=""
+                onValueChange={() => { clear("kwh"); clear("spesa"); }}
+              />
+              <Input
+                id="preventivo-spesa"
+                name="spesa"
+                label="Spesa mensile (€)"
+                type="number"
+                inputMode="decimal"
+                status={fieldStatus("spesa")}
+                statusMessage=""
+                onValueChange={() => { clear("kwh"); clear("spesa"); }}
+              />
             </div>
             <RadioGroup
               id="preventivo-pagamento"
@@ -100,7 +221,7 @@ export function Quote() {
               defaultValue="carta"
               layout="row"
             />
-            <Button type="submit" size="lg" shape="pill" suffixIcon={ArrowRight} className="mt-1 w-full font-bold">
+            <Button type="submit" size="lg" shape="pill" suffixIcon={ArrowRight} loading={sending} className="mt-1 w-full font-bold">
               Calcola il preventivo
             </Button>
             <p className="m-0 text-sm font-medium leading-snug">

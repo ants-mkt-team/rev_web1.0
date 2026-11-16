@@ -1,11 +1,12 @@
-import type { FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Input } from "@/components/ui/Input";
+import { useAvvisi } from "@/components/revoluce/avvisi-context";
 import { Highlight, Kicker, Section } from "@/components/revoluce/primitives";
-import { site } from "@/content";
+import { formMessages, site } from "@/content";
 
 const nextSteps = [
   "Ti chiamiamo e ti spieghiamo come funziona Revoluce, e come funzionerà per te.",
@@ -13,12 +14,89 @@ const nextSteps = [
   "Attivi la fornitura solo quando sei convinto.",
 ] as const;
 
-function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault();
-  // TODO: send the call-back request to Revoluce's lead endpoint.
+type ContactField = "nome" | "email" | "telefono" | "privacy";
+
+interface ContactRequest {
+  nome: string;
+  email: string;
+  telefono: string;
 }
 
+// TODO: send the call-back request to Revoluce's lead endpoint.
+// Until then every request fails, so the visitor sees the "invio non riuscito" popup
+// with the phone number instead of a confirmation for a request nobody received.
+async function sendContactRequest(request: ContactRequest): Promise<void> {
+  void request;
+  throw new Error("The lead endpoint is not connected yet.");
+}
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+/** 6 to 15 digits with an optional "+" or "00" prefix, checked after removing spaces, dots, dashes and slashes. */
+const phonePattern = /^(\+|00)?\d{6,15}$/;
+
 export function Contact() {
+  const { mostra, chiudi } = useAvvisi();
+  const [invalid, setInvalid] = useState<Partial<Record<ContactField, boolean>>>({});
+  const [privacy, setPrivacy] = useState(false);
+  const [sending, setSending] = useState(false);
+  const lastPopup = useRef<number | null>(null);
+
+  const fieldStatus = (field: ContactField) => (invalid[field] ? "unvalidated" : "default");
+  const clear = (field: ContactField) => {
+    if (invalid[field]) setInvalid((current) => ({ ...current, [field]: false }));
+  };
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const nome = String(data.get("nome") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim();
+    const telefono = String(data.get("telefono") ?? "").replace(/[\s./-]/g, "");
+
+    const errors: Partial<Record<ContactField, boolean>> = {};
+    const lines: string[] = [];
+    if (!nome) {
+      errors.nome = true;
+      lines.push(formMessages.fields.name);
+    }
+    if (!emailPattern.test(email)) {
+      errors.email = true;
+      lines.push(formMessages.fields.email);
+    }
+    if (!phonePattern.test(telefono)) {
+      errors.telefono = true;
+      lines.push(formMessages.fields.phone);
+    }
+    if (!privacy) {
+      errors.privacy = true;
+      lines.push(formMessages.fields.privacy);
+    }
+
+    setInvalid(errors);
+    if (lastPopup.current !== null) chiudi(lastPopup.current);
+    if (lines.length) {
+      lastPopup.current = mostra({ tipo: "campi", titolo: formMessages.contact.missing, voci: lines });
+      const first = (["nome", "email", "telefono", "privacy"] as const).find((field) => errors[field]);
+      if (first) document.getElementById(`contatti-${first}`)?.focus();
+      return;
+    }
+
+    setSending(true);
+    const sendingPopup = mostra({ tipo: "invio", titolo: formMessages.sending.title, testo: formMessages.sending.text });
+    try {
+      await sendContactRequest({ nome, email, telefono });
+      lastPopup.current = mostra({ tipo: "successo", titolo: formMessages.contact.sent.title, testo: formMessages.contact.sent.text });
+      form.reset();
+      setPrivacy(false);
+    } catch {
+      lastPopup.current = mostra({ tipo: "errore", titolo: formMessages.failed.title, testo: formMessages.failed.text });
+    } finally {
+      chiudi(sendingPopup);
+      setSending(false);
+    }
+  }
+
   return (
     <Section id="contatti" tone="brand" labelledBy="contatti-title">
       <div className="flex flex-wrap items-start gap-x-18 gap-y-14">
@@ -73,25 +151,60 @@ export function Contact() {
           shadow={false}
           className="mx-auto w-full min-w-0 max-w-[35rem] flex-[1_1_26rem] border-0 bg-balsa-surface text-balsa-primary"
         >
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5" aria-labelledby="contatti-form-title">
+          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5" aria-labelledby="contatti-form-title">
             <h3 id="contatti-form-title" className="m-0 text-[clamp(2rem,3vw,2.625rem)] font-extrabold leading-none">
               Ne parliamo?
             </h3>
             <p className="m-0 text-[1.0625rem] leading-relaxed">
               Lasciaci i tuoi dati: ti ricontattiamo entro poche ore.
             </p>
-            <Input id="contatti-nome" label="Nome" autoComplete="name" required />
+            <Input
+              id="contatti-nome"
+              name="nome"
+              label="Nome"
+              autoComplete="name"
+              required
+              status={fieldStatus("nome")}
+              statusMessage=""
+              onValueChange={() => clear("nome")}
+            />
             <div className="grid gap-5 sm:grid-cols-2">
-              <Input id="contatti-email" label="Email" type="email" autoComplete="email" required />
-              <Input id="contatti-telefono" label="Telefono" type="phone" autoComplete="tel" required />
+              <Input
+                id="contatti-email"
+                name="email"
+                label="Email"
+                type="email"
+                autoComplete="email"
+                required
+                status={fieldStatus("email")}
+                statusMessage=""
+                onValueChange={() => clear("email")}
+              />
+              <Input
+                id="contatti-telefono"
+                name="telefono"
+                label="Telefono"
+                type="phone"
+                autoComplete="tel"
+                required
+                status={fieldStatus("telefono")}
+                statusMessage=""
+                onValueChange={() => clear("telefono")}
+              />
             </div>
             <Checkbox
               id="contatti-privacy"
               label="Accetto il trattamento dei dati personali (art. 13 Regolamento UE 679/2016)"
               hint="Leggi l'informativa privacy su revoluce.it/privacy-policy"
               required
+              checked={privacy}
+              onCheckedChange={(checked) => {
+                setPrivacy(checked);
+                if (checked) clear("privacy");
+              }}
+              className={invalid.privacy ? "[&_input]:border-balsa-destructive" : undefined}
             />
-            <Button type="submit" size="lg" shape="pill" suffixIcon={ArrowRight} className="w-full font-bold">
+            <Button type="submit" size="lg" shape="pill" suffixIcon={ArrowRight} loading={sending} className="w-full font-bold">
               Ricontattami
             </Button>
             <ol className="m-0 mt-1 flex list-none flex-col gap-3 rounded-[1.25rem] bg-balsa-background p-5 text-[0.9375rem] font-medium leading-snug">

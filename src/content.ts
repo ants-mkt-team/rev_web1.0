@@ -229,3 +229,39 @@ export const blogCategories = [
     href: "https://www.revoluce.it/category/conosciamo_revo",
   },
 ] as const;
+
+/*
+ * Form status messages, all in Italian. They are shown as on-screen popups
+ * (components/revoluce/Avvisi.tsx), never with the browser's own bubbles or
+ * Balsa's English defaults: the forms use noValidate and pass an empty
+ * statusMessage to the fields they mark as invalid.
+ */
+export const formMessages = {
+  sending: { title: "Invio in corso…", text: "Ci vuole solo un attimo." },
+  failed: {
+    title: "Invio non riuscito",
+    text: `Non siamo riusciti a inviare i tuoi dati. Riprova tra poco oppure chiamaci allo ${site.phone}.`,
+  },
+  quote: {
+    missing: "Mancano alcuni dati per il preventivo",
+    sent: {
+      title: "Preventivo in arrivo",
+      text: "Stiamo preparando il video con il calcolo fatto sui tuoi consumi.",
+    },
+  },
+  contact: {
+    missing: "Mancano alcuni dati per ricontattarti",
+    sent: {
+      title: "Richiesta inviata",
+      text: "Grazie! Un nostro Tutor ti richiama entro poche ore, dal lunedì al venerdì.",
+    },
+  },
+  fields: {
+    name: "Scrivi il tuo nome.",
+    usage: "Indica il consumo mensile in kWh oppure la spesa mensile in euro.",
+    positive: "Consumo e spesa devono essere numeri maggiori di zero.",
+    email: "Scrivi un indirizzo email valido, per esempio nome@esempio.it.",
+    phone: "Scrivi un numero di telefono valido, solo cifre.",
+    privacy: "Per ricontattarti ci serve il tuo consenso al trattamento dei dati.",
+  },
+} as const;
