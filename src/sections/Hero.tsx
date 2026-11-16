@@ -19,8 +19,10 @@ const stackPlacement: Record<ServiceId, string> = {
 
 export function Hero() {
   return (
-    <Section tone="brand" labelledBy="hero-title" className="!pt-14 md:!pt-24">
-      <Curve onBrand className="-left-[22%] top-[38%] w-[135%] -rotate-12" />
+    // The navbar overlays the top of the hero (h-14, h-19 from lg), so the
+    // top padding includes its height.
+    <Section tone="brand" rounded="bottom" labelledBy="hero-title" className="!pt-28 md:!pb-21 lg:!pt-45">
+      <Curve tone="brand" className="-left-[24%] top-[29%] w-[80%] -rotate-12" />
       <img
         src={decoroLuce}
         alt=""
@@ -40,7 +42,7 @@ export function Hero() {
             <br />
             <Highlight tone="luce">revoluzionaria.</Highlight>
           </h1>
-          <p className="m-0 max-w-[35rem] text-[clamp(1.0625rem,1.4vw,1.25rem)] leading-relaxed text-balsa-background">
+          <p className="m-0 max-w-[35rem] text-[clamp(1.0625rem,1.4vw,1.25rem)] leading-relaxed text-balsa-surface">
             Siamo la fornitura di energia che ricarichi come un cellulare e che paghi con un prezzo
             tutto incluso moltiplicato per quello che consumi. Sì, è semplice così come lo leggi.{" "}
             <strong className="font-bold text-balsa-surface">
@@ -55,7 +57,7 @@ export function Hero() {
               size="lg"
               rounded="full"
               suffixIcon={ArrowRight}
-              className="h-14 px-7 text-lg bg-balsa-surface font-bold text-balsa-primary hover:bg-balsa-background"
+              className="h-14 whitespace-nowrap px-5 text-[0.9375rem] sm:px-7 sm:text-lg bg-balsa-surface font-bold text-balsa-primary hover:bg-balsa-background"
             >
               Quanto spendo? Fai il preventivo
             </Link>

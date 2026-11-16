@@ -101,7 +101,7 @@ export function Contact() {
   }
 
   return (
-    <Section id="contatti" tone="brand" labelledBy="contatti-title">
+    <Section id="contatti" tone="brand" rounded="all" behind="light-below" labelledBy="contatti-title">
       <div className="flex flex-wrap items-start gap-x-18 gap-y-14">
         <div className="flex min-w-0 flex-[1_1_28rem] flex-col items-start gap-6">
           <Kicker>Non è un call center</Kicker>

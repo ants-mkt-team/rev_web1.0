@@ -9,11 +9,41 @@ import { Badge } from "@/components/ui/Badge";
 
 type Tone = "light" | "brand";
 
-/** A full-width band with the page's content column inside it. */
+/** Which corners of a band are rounded (rounded-rv-section, 30px). */
+type Corners = "top" | "bottom" | "all";
+
+/**
+ * What shows through the rounded corners. The page is white, so a band
+ * between white bands needs nothing; a band next to a lilac one shows that
+ * lilac instead of white specks.
+ */
+type Behind = "light" | "light-below";
+
+const cornerClasses: Record<Corners, string> = {
+  top: "rounded-t-rv-section",
+  bottom: "rounded-b-rv-section",
+  all: "rounded-rv-section",
+};
+
+const behindClasses: Record<Behind, string> = {
+  light: "bg-balsa-background",
+  "light-below":
+    "bg-[linear-gradient(to_bottom,var(--color-balsa-surface)_50%,var(--color-balsa-background)_50%)]",
+};
+
+/**
+ * A full-width band with the page's content column inside it.
+ *
+ * - `rounded` turns the band into a panel on the white page.
+ * - `inset` keeps a white margin around a fully rounded panel (the quote band).
+ */
 export function Section({
   id,
   tone = "light",
   surface = false,
+  rounded,
+  behind,
+  inset = false,
   className = "",
   children,
   labelledBy,
@@ -21,6 +51,9 @@ export function Section({
   id?: string;
   tone?: Tone;
   surface?: boolean;
+  rounded?: Corners;
+  behind?: Behind;
+  inset?: boolean;
   className?: string;
   children: ReactNode;
   labelledBy?: string;
@@ -31,15 +64,28 @@ export function Section({
       : surface
         ? "bg-balsa-surface text-balsa-foreground"
         : "bg-balsa-background text-balsa-foreground";
-  return (
+  const content = <div className="relative z-10 mx-auto w-full max-w-7xl">{children}</div>;
+
+  if (inset) {
+    return (
+      <section id={id} aria-labelledby={labelledBy} className={`scroll-mt-24 bg-balsa-surface p-3 sm:p-5 ${className}`}>
+        <div className={`relative isolate overflow-hidden rounded-rv-section px-5 py-20 sm:px-8 md:py-40 lg:px-12 ${ground}`}>
+          {content}
+        </div>
+      </section>
+    );
+  }
+
+  const band = (
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={`relative isolate overflow-hidden scroll-mt-24 px-5 py-20 sm:px-8 md:py-28 lg:px-12 ${ground} ${className}`}
+      className={`relative isolate overflow-hidden scroll-mt-24 px-5 py-20 sm:px-8 md:py-28 lg:px-12 ${ground} ${rounded ? cornerClasses[rounded] : ""} ${className}`}
     >
-      <div className="relative z-10 mx-auto w-full max-w-7xl">{children}</div>
+      {content}
     </section>
   );
+  return behind ? <div className={behindClasses[behind]}>{band}</div> : band;
 }
 
 /** Highlight box behind a word or phrase, as in the Revoluce social and web visuals. */
@@ -134,18 +180,26 @@ export function SectionHeading({
 /**
  * The "r" curve of the Revoluce mark, used as a large decorative path.
  *
- * It runs behind body text, so its tone always moves the ground away from the
- * text colour: darker violet on violet bands (lilac and white text stay above
- * 5:1), white on lilac bands (violet text stays above 5:1). A lighter curve on
- * violet or a violet curve on lilac would pull the text below WCAG AA.
+ * It sits behind the text (-z-10 inside the content column), and its tone
+ * keeps the text above it at WCAG AA:
+ * - on violet bands, 10% white: white text stays at 5.6:1, but lilac text
+ *   drops to 3.7:1, so body text the curve crosses on violet is white;
+ * - on lilac bands, 40% white (violet text 5.4:1); a violet tint would drop it to 4.0:1;
+ * - on white bands, a 10% violet tint (violet text 5.8:1).
  */
-export function Curve({ className = "", onBrand = false }: { className?: string; onBrand?: boolean }) {
+const curveTones = {
+  brand: "text-balsa-surface/10",
+  light: "text-balsa-surface/40",
+  surface: "text-balsa-primary/10",
+} as const;
+
+export function Curve({ className = "", tone = "light" }: { className?: string; tone?: keyof typeof curveTones }) {
   return (
     <svg
       aria-hidden="true"
       focusable="false"
       viewBox="0 0 2278.39 721.7"
-      className={`pointer-events-none absolute z-0 h-auto ${onBrand ? "text-balsa-secondary/60" : "text-balsa-surface/40"} ${className}`}
+      className={`pointer-events-none absolute -z-10 h-auto ${curveTones[tone]} ${className}`}
       fill="currentColor"
     >
       <path d="M30.02,416c246.15,231.41,624.08,327.05,913.58,19.11l264.04-280.87c34.93-37.16,33.13-95.78-4.01-130.69-35.63-33.5-94.73-30.94-129.06,5.58l-264.04,280.87c-193,205.29-475.79,141.76-655.4-27.09-37.15-34.93-95.78-33.13-130.67,3.99-34.65,36.88-32.22,93.58,5.56,129.1" />

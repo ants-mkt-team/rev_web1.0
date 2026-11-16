@@ -134,8 +134,8 @@ export function Quote() {
   }
 
   return (
-    <Section id="preventivo" tone="brand" labelledBy="preventivo-title">
-      <Curve onBrand className="-bottom-[12%] -left-[40%] w-[110%] -rotate-20" />
+    <Section id="preventivo" tone="brand" inset labelledBy="preventivo-title">
+      <Curve tone="brand" className="-bottom-[12%] -left-[40%] w-[110%] -rotate-20" />
       <div className="flex flex-wrap items-center gap-x-18 gap-y-14">
         <div className="flex min-w-0 flex-[1_1_30rem] flex-col items-start gap-6">
           <Kicker>Preventivo in 30 secondi</Kicker>
@@ -147,7 +147,7 @@ export function Quote() {
             <br />
             <Highlight>spendo?</Highlight>
           </h2>
-          <p className="m-0 max-w-[32rem] text-[clamp(1.0625rem,1.4vw,1.25rem)] leading-relaxed text-balsa-background">
+          <p className="m-0 max-w-[32rem] text-[clamp(1.0625rem,1.4vw,1.25rem)] leading-relaxed text-balsa-surface">
             Scopriamolo subito insieme. Inserisci pochi dati e in 30 secondi ricevi via email il tuo
             preventivo dedicato, spiegato in un video.
           </p>

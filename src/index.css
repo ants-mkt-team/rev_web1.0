@@ -24,6 +24,8 @@
   --color-rv-luce: #fcecb8;
   --color-rv-gas: #f9ca90;
   --color-rv-fibra: #b5e5f9;
+  /* Corner of the coloured bands that sit as panels on the white page (rounded-rv-section). */
+  --radius-rv-section: 1.875rem;
 }
 
 /*
@@ -48,8 +50,10 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* The page is white; violet and lilac bands sit on it as rounded panels. */
   body {
     margin: 0;
+    background-color: var(--color-balsa-surface);
     font-family: var(--balsa-font-body, "Epilogue"), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

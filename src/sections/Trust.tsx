@@ -7,12 +7,14 @@ import { guarantees, pressOutlets, site, testimonials } from "@/content";
 
 export function Guarantees() {
   return (
-    <Section id="garanzie" surface labelledBy="garanzie-title">
+    // Guarantees and testimonials form one lilac panel: rounded top here,
+    // rounded bottom on the testimonials band.
+    <Section id="garanzie" rounded="top" labelledBy="garanzie-title">
       <div className="flex flex-col gap-14">
-        <SectionHeading id="garanzie-title" kicker="Perché fidarti" onSurface align="stack">
+        <SectionHeading id="garanzie-title" kicker="Perché fidarti" align="stack">
           Non è tanto per dire:
           <br />
-          <Highlight tone="background">sono garanzie.</Highlight>
+          <Highlight>sono garanzie.</Highlight>
         </SectionHeading>
         <ul className="m-0 grid list-none gap-6 p-0 md:grid-cols-3">
           {guarantees.map((item) => (
@@ -22,7 +24,7 @@ export function Guarantees() {
                 padding="lg"
                 rounded="3xl"
                 shadow={false}
-                className="flex w-full flex-col gap-4 border-0 bg-balsa-background text-balsa-primary"
+                className="flex w-full flex-col gap-4 border-0 bg-balsa-surface text-balsa-primary"
               >
                 <span className="font-balsa-title text-[clamp(3.5rem,5vw,5rem)] font-extrabold leading-none tracking-[-0.02em]">
                   {item.figure}
@@ -34,7 +36,7 @@ export function Guarantees() {
           ))}
         </ul>
         <div className="flex flex-col gap-8">
-          <Separator size="md" className="border-balsa-background" />
+          <Separator size="md" className="border-balsa-surface" />
           <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
             <h3 className="m-0 text-sm font-bold uppercase tracking-[0.08em]">Scrivono di noi</h3>
             <p className="m-0 min-w-0 flex-[1_1_32rem] font-balsa-title text-[clamp(1.125rem,1.6vw,1.375rem)] font-bold leading-relaxed">
@@ -52,7 +54,7 @@ export function Guarantees() {
 
 export function Testimonials() {
   return (
-    <Section id="testimonianze" labelledBy="testimonianze-title">
+    <Section id="testimonianze" rounded="bottom" labelledBy="testimonianze-title" className="!pt-0">
       <div className="flex flex-col gap-16">
         <SectionHeading
           id="testimonianze-title"

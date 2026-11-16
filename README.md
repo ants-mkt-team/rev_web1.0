@@ -21,7 +21,7 @@ Stack: Vite 8, React 19, TypeScript, Tailwind CSS v4, componenti [Balsa UI](http
 | Palette Balsa (7 colori) | `src/styles/my-design-system-palette.css` |
 | Fondamenta Balsa | `src/styles/balsa-foundation.css`, `balsa-theme.css`, `balsa-shadcn-bridge.css` |
 | Colori dei servizi Revoluce (luce, gas, fibra) | `@theme` in `src/index.css` (`bg-rv-luce`, `bg-rv-gas`, `bg-rv-fibra`) |
-| Logo, icone, illustrazioni | `src/assets/revoluce/` |
+| Logo, icone, illustrazioni | `src/assets/revoluce/`. Il sito usa il logo corto, solo "revoluce" (`logo-viola-breve.svg`, `logo-bianco-breve.svg`); i file con "energia ricaricabile" restano come originali del marchio. |
 | Font Epilogue | `public/fonts/` |
 
 Collegamento:
@@ -53,3 +53,4 @@ Per usare i colori nel codice: `bg-balsa-primary`, `text-balsa-foreground`, `bg-
 - I form "Il tuo preventivo" e "Ne parliamo?" controllano i dati ma non inviano ancora nulla: finché `sendQuote` e `sendContactRequest` non sono collegati al preventivatore e al servizio contatti di Revoluce, ogni invio mostra l'avviso "Invio non riuscito" con il numero di telefono (vedi i `TODO` in `src/sections/Quote.tsx` e `src/sections/Contact.tsx`).
 - Lo schermo dell'app Enrica è un mock-up illustrativo: sostituiscilo con uno screenshot reale.
 - La card Gas porta a `#contatti` perché sul sito non c'è ancora una pagina dell'offerta gas.
+- La voce "Assistenza" della navbar porta a `/assistenza`, una pagina ancora da sviluppare (`site.support` in `src/content.ts`).

@@ -70,14 +70,14 @@ function PhoneMockup() {
 
 export function Enrica() {
   return (
-    <Section id="enrica" labelledBy="enrica-title">
-      <Curve className="-left-[30%] top-[18%] w-full -rotate-[24deg]" />
+    <Section id="enrica" surface labelledBy="enrica-title">
+      <Curve tone="surface" className="-left-[30%] top-[18%] w-full -rotate-[24deg]" />
       <div className="flex flex-wrap items-center gap-x-18 gap-y-14">
         <div className="min-w-0 flex-[1_1_26rem]">
           <PhoneMockup />
         </div>
         <div className="flex min-w-0 flex-[1_1_30rem] flex-col items-start gap-6">
-          <Kicker>L'app di Revoluce</Kicker>
+          <Kicker onSurface>L'app di Revoluce</Kicker>
           <h2 id="enrica-title" className="m-0">
             <span className="block text-[clamp(1.75rem,3vw,2.75rem)] font-light leading-tight">ciao, sono</span>
             <span className="block text-[clamp(5.25rem,10vw,9.25rem)] font-extrabold leading-[0.92] tracking-[-0.03em]">

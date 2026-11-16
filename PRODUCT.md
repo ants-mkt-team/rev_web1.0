@@ -16,7 +16,7 @@ Il lavoro che vengono a fare sul sito: capire se Revoluce conviene, ottenere un 
 
 Revoluce fornisce luce, gas e fibra (la fibra si chiama "Irene"). Il sito presenta l'offerta e porta a due azioni:
 
-- il **preventivo**: un video con il calcolo fatto sui consumi del visitatore;
+- il **preventivo**: un video con il calcolo fatto sui consumi del visitatore, inviato via email;
 - la **richiesta di essere ricontattati** da un Tutor.
 
 C'è successo quando il visitatore capisce quanto pagherà e diventa cliente.
@@ -64,7 +64,8 @@ Energia ricaricabile, Tutor e app Enrica sono capacità che sostengono questa pr
 - **Voce:** dà del tu ed è diretta, colloquiale e con un'ironia leggera. Esempi dal sito: "Senza asterischi, senza sorprese", "Il weekend riposiamo anche noi", "niente lag, niente buffering, niente drammi", "Non è un call center".
 - **Nomi propri:** Enrica (l'app), Irene (la fibra), Devia (servizio anti-truffe telefoniche dato in omaggio).
 - **Asset esistenti** in `src/assets/revoluce/`:
-  - logo viola e logo bianco;
+  - logo viola e logo bianco: il sito usa la versione corta, solo "revoluce";
+  - la scritta "energia ricaricabile™" e le lettere grandi del lettering (e, p, c);
   - icone di luce, gas e fibra;
   - curva della "r";
   - decoro e badge della luce;

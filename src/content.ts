@@ -22,6 +22,8 @@ export const site = {
   customerArea: "https://revoluce.crmzeus.it/",
   enricaWebApp: "https://my.revoluce.it/enrica/",
   ireneNews: "https://www.revoluce.it/revoluce-da-enrica-a-irene/",
+  /** New page, not built yet: see "Da completare" in the README. */
+  support: "/assistenza",
   phone: "089 0977647",
   phoneHref: "tel:+390890977647",
   email: "info@revoluce.it",
@@ -77,12 +79,10 @@ export const services: readonly Service[] = [
 ];
 
 export const navItems = [
-  { title: "Luce", link: "#servizio-luce" },
-  { title: "Gas", link: "#servizio-gas" },
-  { title: "Fibra", link: "#servizio-fibra" },
   { title: "Come funziona", link: "#prezzo" },
-  { title: "Testimonianze", link: "#testimonianze" },
-  { title: "Contatti", link: "#contatti" },
+  { title: "Chi siamo", link: site.about },
+  // TODO: the support page does not exist yet; it will be developed later.
+  { title: "Assistenza", link: site.support },
 ] as const;
 
 export const trustPoints = [

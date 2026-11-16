@@ -7,7 +7,8 @@ colors:
   lilla-ricarica: "#dbcdfc"
   bianco-carta: "#ffffff"
   lilla-campo: "#f5f1ff"
-  lilla-bordo: "#a194f1"
+  lilla-bordo: "#8a7bea"
+  viola-attenuato: "#6d55e1"
   giallo-luce: "#fcecb8"
   arancio-gas: "#f9ca90"
   azzurro-fibra: "#b5e5f9"
@@ -45,6 +46,11 @@ typography:
     fontSize: "1.0625rem"
     fontWeight: 500
     lineHeight: 1.625
+  body-small:
+    fontFamily: "Epilogue, system-ui, sans-serif"
+    fontSize: "0.9375rem"
+    fontWeight: 500
+    lineHeight: 1.5
   label:
     fontFamily: "Epilogue, system-ui, sans-serif"
     fontSize: "1rem"
@@ -59,6 +65,7 @@ rounded:
   card: "24px"
   service: "32px"
   phone: "48px"
+  section: "30px"
   pill: "9999px"
 spacing:
   xs: "8px"
@@ -133,7 +140,7 @@ L'atmosfera è insieme diretta, calda, giocosa ed energica. Diretta perché tutt
 Due cose che Revoluce non deve mai sembrare. La prima è **il grande gestore**: blu istituzionale, foto stock di famiglie sorridenti, tono distaccato. La seconda è **il volantino aggressivo**: prezzi urlati, offerte lampeggianti, asterischi e scritte piccole.
 
 **Key Characteristics:**
-- Tre fondi pieni che si alternano a sezioni intere: Viola Revoluce, Lilla Ricarica, Bianco Carta.
+- Una pagina Bianco Carta su cui le fasce viola e lilla si appoggiano come pannelli con gli angoli arrotondati a 30 px.
 - Titoli in Epilogue Light molto grandi, con le parole chiave in ExtraBold dentro un riquadro evidenziatore.
 - Nessuna ombra: la profondità nasce dal contrasto tra i fondi e dai bordi pieni di 2 px.
 - Azioni a pillola, contenitori arrotondati, etichette ed evidenziatori ad angolo vivo.
@@ -160,11 +167,14 @@ Su questi fondi il testo è sempre Viola Revoluce.
 ### Neutral
 - **Bianco Carta** (#ffffff): fondo delle sezioni chiare alternate, delle card dei form, delle etichette e degli evidenziatori sui fondi viola e lilla.
 - **Lilla Campo** (#f5f1ff): riempimento dei campi dei form.
-- **Lilla Bordo** (#a194f1): bordo dei campi dei form a riposo.
+- **Lilla Bordo** (#8a7bea): bordo dei campi dei form a riposo, 3,4:1 sul bianco.
+- **Viola Attenuato** (#6d55e1): testi secondari di Balsa (risposte FAQ, suggerimenti dei campi, segnaposto), 5,2:1 sul bianco.
 - **Rosso Errore** (#b91c1c): solo per campi non validi e avvisi d'errore.
 
 ### Named Rules
-**La regola del campo pieno.** Ogni sezione sta su un solo fondo pieno: viola, lilla o bianco. Niente sfumature, niente fondi mescolati, niente immagini sotto il testo.
+**La regola del campo pieno.** Ogni sezione sta su un solo fondo pieno: viola, lilla o bianco. Niente sfumature e niente immagini sotto il testo; l'unica cosa che passa dietro al testo è la curva della "r", nel tono che lo tiene leggibile (vedi Shapes).
+
+**La regola del pannello.** La pagina è bianca. Le fasce colorate sono pannelli con gli angoli a 30 px: la hero (sotto), garanzie e testimonianze come un unico pannello lilla, contatti (tutti e quattro), chiusura (sopra). Il preventivo è un pannello viola staccato dai bordi con 12–20 px di bianco. Negli angoli si vede il colore della fascia accanto, non un ritaglio bianco.
 
 **La regola del servizio.** Giallo Luce, Arancio Gas e Azzurro Fibra significano il loro servizio. Non diventano mai decorazione generica né colori d'accento.
 
@@ -185,13 +195,13 @@ Su questi fondi il testo è sempre Viola Revoluce.
 - **Label** (700, 1 rem, spaziatura 0,025 em, maiuscolo e corsivo): le etichette sopra i titoli di sezione.
 
 ### Named Rules
-**La regola dell'evidenziatore.** Un titolo è Light, e solo da una a tre parole chiave passano in ExtraBold dentro un riquadro pieno: bianco su viola e su lilla, lilla su bianco, giallo per la luce. Mai un titolo intero evidenziato.
+**La regola dell'evidenziatore.** Un titolo è Light, e solo da una a tre parole chiave passano in ExtraBold dentro un riquadro pieno: bianco su viola e su lilla, lilla su bianco; il giallo luce è riservato al titolo della hero. Mai un titolo intero evidenziato. Le etichette sopra i titoli seguono la stessa regola: il riquadro deve sempre vedersi sul suo fondo.
 
 **La regola dei pesi estremi.** In un titolo si usano solo 300 e 800. I pesi intermedi stanno nel corpo del testo.
 
 ## Layout
 
-La pagina è una sequenza di fasce a tutta larghezza, ciascuna su un fondo pieno. Dentro c'è una colonna di contenuto larga al massimo 1280 px.
+La pagina è bianca e le fasce si susseguono a tutta larghezza; quelle colorate diventano pannelli arrotondati (vedi La regola del pannello). Dentro c'è una colonna di contenuto larga al massimo 1280 px. La navbar si appoggia sopra la hero, che per questo ha 120 px di spazio in alto (180 px da 1024 px).
 
 - **Margini laterali:** 20 px su mobile, 32 px da 640 px, 48 px da 1024 px.
 - **Spazio verticale delle fasce:** 80 px, 112 px da 768 px.
@@ -228,7 +238,9 @@ Tre famiglie di forme, ciascuna con il suo compito:
 
 I bordi sono sempre pieni e larghi 2 px. Il telefono di Enrica fa eccezione, con 10 px.
 
-La forma firma è la **curva della "r"** del logo: un grande tracciato pieno al 10% di opacità che attraversa le fasce dietro il contenuto.
+La forma firma è la **curva della "r"** del logo: un grande tracciato pieno che attraversa le fasce dietro al testo. Il tono dipende dal fondo: bianco al 10% sul viola, viola al 10% sul bianco, bianco al 40% sul lilla. Sul viola il testo che la curva attraversa è bianco, perché il lilla scenderebbe a 3,7:1.
+
+Le lettere della scritta Revoluce ("e", "p", "c") compaiono grandi negli angoli delle card della formula del prezzo, dietro al testo e tagliate dalla card. La scritta "energia ricaricabile™" fa da titolo alla spiegazione di come funziona.
 
 ### Named Rules
 **La regola della pillola.** Ciò che si clicca è una pillola, ciò che contiene è arrotondato, ciò che si legge come etichetta ha gli angoli vivi.
@@ -256,7 +268,7 @@ I componenti di base vengono da Balsa UI 0.8.1, con tema "modern-flat": forme ar
 - **Error / Disabled:** in errore il bordo diventa Rosso Errore e non compare nessun messaggio sotto il campo. Il messaggio arriva in un avviso a schermo che elenca tutti i campi da correggere, in italiano.
 
 ### Navigation
-Barra Lilla Ricarica alta 56 px, con un sottile filo inferiore e contenuto largo al massimo 1280 px: logo viola a sinistra, voci di testo in Viola Revoluce, e a destra due pillole, "Area clienti" con il contorno e "Preventivo" piena con la freccia. È la navbar Balsa in variante "surface". Su mobile le voci finiscono in un menu che si apre dall'icona hamburger.
+Barra appoggiata sopra la hero viola: bianco al 10%, filo inferiore bianco al 30% e angolo in basso a sinistra a 30 px; alta 76 px da 1024 px (56 sotto). Logo bianco solo con la scritta "revoluce", tre voci bianche a destra (Come funziona, Chi siamo, Assistenza) e due pillole: "Passa a Revoluce" bianca con la freccia, che porta al preventivo, e "Area clienti" con il contorno bianco. È la navbar Balsa in variante "surface", adattata da fuori. Su mobile le voci finiscono in un pannello lilla pieno che si apre dall'icona hamburger.
 
 ### Etichetta (kicker)
 Riquadro ad angoli vivi sopra ogni titolo di sezione: maiuscolo corsivo bold, 14–16 px, testo viola. Il fondo è bianco sulle fasce viola e lilla, lilla sulle fasce bianche.
@@ -278,7 +290,7 @@ Elementi ruotati di −1,5° a −6°, come se fossero attaccati alla pagina: l'
 ## Do's and Don'ts
 
 ### Do:
-- **Do** alternare le fasce tra Viola Revoluce, Lilla Ricarica e Bianco Carta, mai due fasce dello stesso fondo una dopo l'altra.
+- **Do** tenere la pagina bianca e dare alle fasce viola e lilla gli angoli a 30 px, con il colore della fascia accanto visibile negli angoli.
 - **Do** scrivere i titoli in Epilogue 300 con spaziatura −0,015 em ed evidenziare da una a tre parole chiave in 800 dentro un riquadro pieno.
 - **Do** usare Epilogue 800 grande per numeri e prove concrete: "6 mesi", il numero di telefono, gli anni.
 - **Do** dare forma di pillola a tutte le azioni e un bordo pieno di 2 px a ogni contorno.
